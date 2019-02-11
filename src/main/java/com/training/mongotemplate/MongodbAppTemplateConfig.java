@@ -13,8 +13,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import static org.springframework.data.mongodb.core.query.Criteria.where;
+import static org.springframework.data.mongodb.core.query.Query.query;
+import static org.springframework.data.mongodb.core.query.Update.update;
+
 import com.mongodb.MongoClient;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.List;
 
 
 @SpringBootApplication
@@ -29,25 +34,29 @@ public class MongodbAppTemplateConfig implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
-		Person person = new Person("Bob", 38);
-		log.info("Insert user: " + person);
-		mongoTemplate.insert(person);
-		Person one = mongoTemplate.findOne(new Query(where("name").is("Bob")), Person.class);
-		log.info(one);
-		// Actualizamos el elemento que acabamos de crear
-		one.setName("John");
-		mongoTemplate.save(one);
-		one = mongoTemplate.findOne(new Query(where("name").is("John")), Person.class);
-		log.info("After modify person: " + one);
-		// Update first: Actualiza el primero documento que coincide
-		Query query = new Query();
-		query.addCriteria(Criteria.where("name").is("John"));
-		Update update = new Update();
-		update.set("name", "Ralph");
-		mongoTemplate.updateFirst(query, update, Person.class);
-		one = mongoTemplate.findOne(new Query(where("name").is("Ralph")), Person.class);
-		log.info("After updatefirst person: " + one);
-		mongoTemplate.dropCollection("person");
+		Person p = new Person("Joe", 34);
+
+		// Insert is used to initially store the object into the database.
+		mongoTemplate.insert(p);
+		log.info("Insert: " + p);
+
+		// Find
+		p = mongoTemplate.findById(p.getId(), Person.class);
+		log.info("Found: " + p);
+
+		// Update
+		mongoTemplate.updateFirst(query(where("name").is("Joe")), update("age", 35), Person.class);
+		p = mongoTemplate.findOne(query(where("name").is("Joe")), Person.class);
+		log.info("Updated: " + p);
+
+		// Delete
+		mongoTemplate.remove(p);
+
+		// Check that deletion worked
+		List<Person> people =  mongoTemplate.findAll(Person.class);
+		log.info("Number of people = : " + people.size());
+
+		mongoTemplate.dropCollection(Person.class);
 	}
 }
 
