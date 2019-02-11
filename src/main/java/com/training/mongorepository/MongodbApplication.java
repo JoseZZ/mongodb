@@ -1,4 +1,4 @@
-package com.training.hello;
+package com.training.mongorepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;

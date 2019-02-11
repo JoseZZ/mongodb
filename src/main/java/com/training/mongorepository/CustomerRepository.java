@@ -1,4 +1,4 @@
-package com.training.hello;
+package com.training.mongorepository;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
 
