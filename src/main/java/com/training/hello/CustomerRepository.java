@@ -1,7 +1,15 @@
 package com.training.hello;
 
+import org.springframework.data.mongodb.repository.MongoRepository;
+
+import java.util.List;
+
 /**
  * Created by Jose Gonzalez on 11/02/2019.
  */
-public class CustomerRepository {
+public interface CustomerRepository extends MongoRepository<Customer, String> {
+
+    public Customer findByFirstName(String firstName);
+    public List<Customer> findByLastName(String lastName);
+
 }
