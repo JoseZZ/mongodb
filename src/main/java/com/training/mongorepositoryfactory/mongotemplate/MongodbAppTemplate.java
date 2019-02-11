@@ -1,16 +1,17 @@
-package com.training.mongotemplate;
+package com.training.mongorepositoryfactory.mongotemplate;
 
 
+import com.mongodb.MongoClient;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.data.mongodb.core.MongoOperations;
-import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.mongodb.core.MongoOperations;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Query;
+
 import static org.springframework.data.mongodb.core.query.Criteria.where;
-import com.mongodb.MongoClient;
 
 
 @SpringBootApplication
